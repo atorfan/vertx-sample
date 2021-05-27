@@ -17,6 +17,7 @@ ext {
 
 dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter:$rootProject.ext.junitVersion"
+  compile group: 'org.mockito', name: 'mockito-core', version: '+'
 }
 
 test {

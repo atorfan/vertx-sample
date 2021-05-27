@@ -4,22 +4,25 @@ import com.plannify.domain.Plan;
 import com.plannify.domain.PlanId;
 import com.plannify.domain.PlanInvalid;
 import com.plannify.domain.PlanRepository;
-import com.plannify.domain.PlanRepositoryMock;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("Create Plan should")
 class CreatePlanShould {
 
 	private PlanRepository repository;
 
 	@BeforeEach
 	void setUp() {
-		this.repository = new PlanRepositoryMock();
+		this.repository = Mockito.mock(PlanRepository.class);
 	}
 
 	@Test
+	@DisplayName("create a new one with a valid request")
 	void createAPlanWhenValidRequestIsGiven() {
 		final PlanId planId = PlanId.newOne();
 		final Plan plan = new Plan(planId);
@@ -28,6 +31,7 @@ class CreatePlanShould {
 	}
 
 	@Test
+	@DisplayName("throw error with a null plan")
 	void throwNotValidWhenPlanIsNull() {
 		assertThrows(PlanInvalid.class, () ->
 				new CreatePlan(this.repository).perform(null)
@@ -35,6 +39,7 @@ class CreatePlanShould {
 	}
 
 	@Test
+	@DisplayName("throw error with a null plan identifier")
 	void throwNotValidWhenPlanIdIsNull() {
 		assertThrows(PlanInvalid.class, () ->
 				new CreatePlan(this.repository).perform(new Plan(null))
