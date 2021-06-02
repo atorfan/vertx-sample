@@ -2,7 +2,7 @@ package com.plannify.domain;
 
 import java.util.Objects;
 
-public final class Plan {
+public final class Plan extends AggregateRoot {
 
 	private final PlanId planId;
 
@@ -11,6 +11,10 @@ public final class Plan {
 			throw new PlanInvalid();
 		}
 		this.planId = planId;
+	}
+
+	public void addWannaDo(final WannaDo wannaDo) {
+		this.register(new WannaDoForPlanAdded(wannaDo));
 	}
 
 	@Override
