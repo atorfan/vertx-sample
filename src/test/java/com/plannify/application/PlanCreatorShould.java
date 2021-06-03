@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Create Plan should")
-class CreatePlanShould {
+class PlanCreatorShould {
 
 	private PlanRepository repository;
 
