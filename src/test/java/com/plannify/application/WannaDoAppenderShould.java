@@ -13,12 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
-@DisplayName("New Wanna Do should")
-class AddWannaDoShould {
+@DisplayName("Wanna Do Appender should")
+class WannaDoAppenderShould {
 
 	private PlanRepository repository;
 	private DomainEventsPublisher domainEventsPublisher;
@@ -30,19 +31,19 @@ class AddWannaDoShould {
 	}
 
 	@Test
-	@DisplayName("add the new wanna do to the given plan")
+	@DisplayName("add new wanna do to the given plan")
 	void addToThePlan() {
 		final PlanId planId = PlanId.newOne();
-		final Plan plan = Mockito.mock(Plan.class);
+		final Plan plan = new Plan(planId);
 		final WannaDo wannaDo = new WannaDo("Travel to Paris");
 
 		given(this.repository.findPlan(planId))
 				.willReturn(plan);
 
-		final AddWannaDo addWannaDo = new AddWannaDo(this.repository, this.domainEventsPublisher);
+		final WannaDoAppender addWannaDo = new WannaDoAppender(this.repository, this.domainEventsPublisher);
 		addWannaDo.perform(planId, wannaDo);
 
-		then(plan).should(times(1)).addWannaDo(wannaDo);
+		assertTrue(plan.getWannaDos().contains(wannaDo));
 		then(this.domainEventsPublisher).should(times(1)).publish(plan.pullDomainEvents());
 	}
 
@@ -52,7 +53,7 @@ class AddWannaDoShould {
 		final WannaDo wannaDo = new WannaDo("Travel to Paris");
 
 		assertThrows(PlanInvalid.class, () ->
-				new AddWannaDo(this.repository, this.domainEventsPublisher).perform(null, wannaDo)
+				new WannaDoAppender(this.repository, this.domainEventsPublisher).perform(null, wannaDo)
 		);
 	}
 
@@ -62,7 +63,7 @@ class AddWannaDoShould {
 		final PlanId planId = PlanId.newOne();
 
 		assertThrows(WannaDoInvalid.class, () ->
-				new AddWannaDo(this.repository, this.domainEventsPublisher).perform(planId, null)
+				new WannaDoAppender(this.repository, this.domainEventsPublisher).perform(planId, null)
 		);
 	}
 }

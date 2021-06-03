@@ -27,14 +27,14 @@ class CreatePlanShould {
 		final PlanId planId = PlanId.newOne();
 		final Plan plan = new Plan(planId);
 
-		new CreatePlan(this.repository).perform(plan);
+		new PlanCreator(this.repository).perform(plan);
 	}
 
 	@Test
 	@DisplayName("throw error with a null plan")
 	void throwNotValidWhenPlanIsNull() {
 		assertThrows(PlanInvalid.class, () ->
-				new CreatePlan(this.repository).perform(null)
+				new PlanCreator(this.repository).perform(null)
 		);
 	}
 
@@ -42,7 +42,7 @@ class CreatePlanShould {
 	@DisplayName("throw error with a null plan identifier")
 	void throwNotValidWhenPlanIdIsNull() {
 		assertThrows(PlanInvalid.class, () ->
-				new CreatePlan(this.repository).perform(new Plan(null))
+				new PlanCreator(this.repository).perform(new Plan(null))
 		);
 	}
 }

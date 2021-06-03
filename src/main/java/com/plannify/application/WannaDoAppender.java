@@ -8,12 +8,12 @@ import com.plannify.domain.PlanRepository;
 import com.plannify.domain.WannaDo;
 import com.plannify.domain.WannaDoInvalid;
 
-public final class AddWannaDo {
+public final class WannaDoAppender {
 
 	private final PlanRepository repository;
 	private final DomainEventsPublisher domainEventsPublisher;
 
-	public AddWannaDo(final PlanRepository repository, final DomainEventsPublisher domainEventsPublisher) {
+	public WannaDoAppender(final PlanRepository repository, final DomainEventsPublisher domainEventsPublisher) {
 		this.repository = repository;
 		this.domainEventsPublisher = domainEventsPublisher;
 	}

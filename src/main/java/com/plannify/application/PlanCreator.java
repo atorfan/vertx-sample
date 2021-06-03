@@ -4,11 +4,11 @@ import com.plannify.domain.Plan;
 import com.plannify.domain.PlanInvalid;
 import com.plannify.domain.PlanRepository;
 
-public final class CreatePlan {
+public final class PlanCreator {
 
 	private final PlanRepository repository;
 
-	public CreatePlan(final PlanRepository repository) {
+	public PlanCreator(final PlanRepository repository) {
 		this.repository = repository;
 	}
 
