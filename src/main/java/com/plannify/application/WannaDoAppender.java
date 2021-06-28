@@ -4,6 +4,7 @@ import com.plannify.domain.DomainEventsPublisher;
 import com.plannify.domain.Plan;
 import com.plannify.domain.PlanId;
 import com.plannify.domain.PlanInvalid;
+import com.plannify.domain.PlanNotFound;
 import com.plannify.domain.PlanRepository;
 import com.plannify.domain.WannaDo;
 import com.plannify.domain.WannaDoInvalid;
@@ -23,6 +24,9 @@ public final class WannaDoAppender {
 		this.ensureWannaDoNonNull(wannaDo);
 
 		final Plan plan = this.repository.findPlan(planId);
+		if (plan == null) {
+			throw new PlanNotFound();
+		}
 		plan.addWannaDo(wannaDo);
 
 		this.domainEventsPublisher.publish(plan.pullDomainEvents());

@@ -4,6 +4,7 @@ import com.plannify.domain.DomainEventsPublisher;
 import com.plannify.domain.Plan;
 import com.plannify.domain.PlanId;
 import com.plannify.domain.PlanInvalid;
+import com.plannify.domain.PlanNotFound;
 import com.plannify.domain.PlanRepository;
 import com.plannify.domain.WannaDo;
 import com.plannify.domain.WannaDoInvalid;
@@ -45,6 +46,20 @@ class WannaDoAppenderShould {
 
 		assertTrue(plan.getWannaDos().contains(wannaDo));
 		then(this.domainEventsPublisher).should(times(1)).publish(plan.pullDomainEvents());
+	}
+
+	@Test
+	@DisplayName("throw plan not found because not exists")
+	void throwPlanNotFound() {
+		final PlanId planId = PlanId.newOne();
+		final WannaDo wannaDo = new WannaDo("Travel to Paris");
+
+		given(this.repository.findPlan(planId))
+				.willReturn(null);
+
+		assertThrows(PlanNotFound.class, () ->
+				new WannaDoAppender(this.repository, this.domainEventsPublisher).perform(planId, wannaDo)
+		);
 	}
 
 	@Test
