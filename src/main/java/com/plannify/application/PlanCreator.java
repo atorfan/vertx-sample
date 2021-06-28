@@ -1,7 +1,7 @@
 package com.plannify.application;
 
 import com.plannify.domain.Plan;
-import com.plannify.domain.PlanInvalid;
+import com.plannify.domain.PlanId;
 import com.plannify.domain.PlanRepository;
 
 public final class PlanCreator {
@@ -12,15 +12,8 @@ public final class PlanCreator {
 		this.repository = repository;
 	}
 
-	public void perform(final Plan plan) {
-		this.ensurePlanNonNull(plan);
-
+	public void perform(final PlanId planId) {
+		final Plan plan = new Plan(planId);
 		this.repository.save(plan);
-	}
-
-	private void ensurePlanNonNull(final Plan plan) {
-		if (plan == null) {
-			throw new PlanInvalid();
-		}
 	}
 }

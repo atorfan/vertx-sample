@@ -1,6 +1,5 @@
 package com.plannify.application;
 
-import com.plannify.domain.Plan;
 import com.plannify.domain.PlanId;
 import com.plannify.domain.PlanInvalid;
 import com.plannify.domain.PlanRepository;
@@ -25,24 +24,15 @@ class PlanCreatorShould {
 	@DisplayName("create a new one with a valid request")
 	void createAPlanWhenValidRequestIsGiven() {
 		final PlanId planId = PlanId.newOne();
-		final Plan plan = new Plan(planId);
 
-		new PlanCreator(this.repository).perform(plan);
-	}
-
-	@Test
-	@DisplayName("throw error with a null plan")
-	void throwNotValidWhenPlanIsNull() {
-		assertThrows(PlanInvalid.class, () ->
-				new PlanCreator(this.repository).perform(null)
-		);
+		new PlanCreator(this.repository).perform(planId);
 	}
 
 	@Test
 	@DisplayName("throw error with a null plan identifier")
 	void throwNotValidWhenPlanIdIsNull() {
 		assertThrows(PlanInvalid.class, () ->
-				new PlanCreator(this.repository).perform(new Plan(null))
+				new PlanCreator(this.repository).perform(null)
 		);
 	}
 }
